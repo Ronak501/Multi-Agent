@@ -256,9 +256,12 @@ async function loadA2aDemo() {
     const syncOutput = syncArtifact.output || {};
 
     const asyncUserIntent = asyncFlow.user_intent || "Unknown request";
-    const asyncTask = asyncFlow.task || {};
-    const asyncOutput = asyncTask.payload || {};
-    const events = asyncFlow.events || [];
+
+    // Extract async output from the last completed event
+    const completedEvent =
+      events.find((ev) => ev.event === "task.completed") || {};
+    const asyncArtifact = completedEvent.artifact || {};
+    const asyncOutput = asyncArtifact.output || {};
 
     const eventHtml = events
       .map((ev) => {
