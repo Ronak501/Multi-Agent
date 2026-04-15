@@ -1,0 +1,5 @@
+# Multi-Agent Communication System
+# No external dependencies required - uses only Python standard library
+# This system is designed to be lightweight and easy to run
+Django>=5.0,<6.0
+

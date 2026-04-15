@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi-Agent Django Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'webapp/styles.css' %}" />
+  </head>
+  <body>
+    <div class="bg-shape shape-a"></div>
+    <div class="bg-shape shape-b"></div>
+
+    <main class="layout">
+      <section class="hero panel" id="overview">
+        <p class="badge">Django Version</p>
+        <h1>Multi-Agent Communication Project</h1>
+        <p class="sub">
+          Start from the "Start Here" section below and run demos in sequence.
+        </p>
+      </section>
+
+      <section class="panel start-panel" id="start-here">
+        <h2>Start Here (Simple Flow)</h2>
+        <ol class="start-list">
+          <li>Run experiment comparison first.</li>
+          <li>Run speaker/listener single-round demo.</li>
+          <li>Check average comparison table (final/early/late/improvement).</li>
+          <li>Run advanced demos: IMMAC and A2A.</li>
+        </ol>
+        <div class="quick-actions">
+          <button id="goExperimentBtn" type="button">Step 1: Run Experiments</button>
+          <button id="goDemoBtn" type="button">Step 2: Speaker/Listener</button>
+          <button id="goImmacBtn" type="button">Step 3: IMMAC Demo</button>
+          <button id="goA2aBtn" type="button">Step 4: A2A Demo</button>
+          <button id="runAllBtn" type="button">Run All Demos</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Process Flow</h2>
+        <div class="steps">
+          {% for step in steps %}
+          <article class="step">
+            <span>Step {{ forloop.counter }}</span>
+            <p>{{ step }}</p>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="panel" id="experiments">
+        <h2>1) Experiment Comparison</h2>
+        <form id="experimentForm" class="inline-form">
+          <label>
+            Episodes
+            <input type="number" id="episodes" value="30" min="1" max="200" />
+          </label>
+          <label>
+            Episode Length
+            <input type="number" id="length" value="10" min="1" max="100" />
+          </label>
+          <button type="submit">Run</button>
+        </form>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Approach</th>
+                <th>Final Accuracy</th>
+                <th>Early Avg</th>
+                <th>Late Avg</th>
+                <th>Improvement</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+        <p class="winner" id="winner"></p>
+      </section>
+
+      <section class="panel" id="speaker-listener">
+        <h2>2) Speaker and Listener Demo</h2>
+        <button id="demoBtn" type="button">Generate Demo</button>
+        <div class="chat-stage" id="demoChatFlow"></div>
+        <details class="raw-block">
+          <summary>Show Raw Demo JSON</summary>
+          <div class="agent-grid">
+            <div class="agent-card">
+              <h3>Speaker Agent Raw</h3>
+              <pre id="speakerOutput"></pre>
+            </div>
+            <div class="agent-card">
+              <h3>Listener Agent Raw</h3>
+              <pre id="listenerOutput"></pre>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="panel" id="immac">
+        <h2>4) IMMAC Demo (Advanced)</h2>
+        <p class="sub">Shows surprise-based communication gating and attention routing.</p>
+        <button id="immacBtn" type="button">Run IMMAC Demo</button>
+        <div class="flow-cards" id="immacFlow"></div>
+        <details class="raw-block">
+          <summary>Show Raw IMMAC JSON</summary>
+          <pre id="immacOutput"></pre>
+        </details>
+      </section>
+
+      <section class="panel" id="a2a">
+        <h2>5) A2A Demo (Advanced)</h2>
+        <p class="sub">Shows JSON-RPC sync flow and async SSE-like event lifecycle.</p>
+        <button id="a2aBtn" type="button">Run A2A Demo</button>
+        <div class="flow-cards" id="a2aFlow"></div>
+        <details class="raw-block">
+          <summary>Show Raw A2A JSON</summary>
+          <pre id="a2aOutput"></pre>
+        </details>
+      </section>
+
+    </main>
+
+    {{ default_results|json_script:"initialData" }}
+    <script src="{% static 'webapp/app.js' %}"></script>
+  </body>
+</html>
