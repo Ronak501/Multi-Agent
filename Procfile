@@ -1,0 +1,1 @@
+web: python -m gunicorn multiagent_web.wsgi:application --bind 0.0.0.0:$PORT
