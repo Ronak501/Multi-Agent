@@ -15,7 +15,7 @@ def index(request):
         "steps": default_process_steps(),
         "default_results": run_experiment_summary(episodes=30, length=10),
     }
-    return render(request, "webapp/index.html", context)
+    return render(request, "index.html", context)
 
 
 def experiment_api(request):
